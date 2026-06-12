@@ -133,16 +133,17 @@
   }
 
   /* ── WHY ── */
-  .why-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-md); border: 1px solid var(--sf-border); }
-  .why-col { padding: 0; }
-  .why-col.pain { background: #fff8f0; }
-  .why-col.solution { background: var(--sf-blue-light); }
-  .why-header { padding: 18px 28px; font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; border-bottom: 1px solid rgba(0,0,0,0.07); }
-  .why-col.pain .why-header { color: var(--sf-red); background: #fff0ec; }
-  .why-col.solution .why-header { color: var(--sf-blue-dark); background: #d0e9fa; }
-  .why-item { padding: 18px 28px; font-size: 14px; border-bottom: 1px solid rgba(0,0,0,0.06); display: flex; align-items: flex-start; gap: 10px; }
-  .why-item:last-child { border-bottom: none; }
-  .why-item .icon { font-size: 16px; margin-top: 1px; flex-shrink: 0; }
+  .why-table { border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-md); border: 1px solid var(--sf-border); }
+  .why-table-header { display: grid; grid-template-columns: 1fr 1fr; }
+  .why-header { padding: 18px 28px; font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+  .pain-header { color: var(--sf-red); background: #fff0ec; border-bottom: 1px solid rgba(0,0,0,0.07); }
+  .solution-header { color: var(--sf-blue-dark); background: #d0e9fa; border-bottom: 1px solid rgba(0,0,0,0.07); }
+  .why-row { display: grid; grid-template-columns: 1fr 1fr; border-bottom: 1px solid rgba(0,0,0,0.06); }
+  .why-row:last-child { border-bottom: none; }
+  .why-cell { padding: 18px 28px; font-size: 14px; display: flex; align-items: flex-start; gap: 10px; }
+  .why-cell .icon { font-size: 16px; margin-top: 1px; flex-shrink: 0; }
+  .pain-cell { background: #fff8f0; border-right: 1px solid rgba(0,0,0,0.06); }
+  .solution-cell { background: var(--sf-blue-light); }
   .callout-box {
     margin-top: 32px; background: var(--sf-white);
     border-left: 4px solid var(--sf-blue); border-radius: var(--radius);
@@ -384,7 +385,8 @@
   @media (max-width: 900px) {
     .card-grid.cols-3 { grid-template-columns: 1fr; }
     .card-grid.cols-2 { grid-template-columns: 1fr; }
-    .why-grid { grid-template-columns: 1fr; }
+    .why-table-header, .why-row { grid-template-columns: 1fr; }
+    .pain-cell { border-right: none; border-bottom: 1px solid rgba(0,0,0,0.06); }
     .wireframe-grid { grid-template-columns: 1fr; }
     .dashboard-grid { grid-template-columns: 1fr; }
     .kpi-tiles { flex-direction: column; }
@@ -515,20 +517,26 @@
       <h2>Why We're Doing This</h2>
       <div class="divider"></div>
     </div>
-    <div class="why-grid">
-      <div class="why-col pain">
-        <div class="why-header">😤 Pain Point</div>
-        <div class="why-item"><span class="icon">❓</span><span>"I don't know who to ask for governance help"</span></div>
-        <div class="why-item"><span class="icon">👤</span><span>"Office hours never have the right person"</span></div>
-        <div class="why-item"><span class="icon">📭</span><span>"I missed the session and can't find the answer"</span></div>
-        <div class="why-item"><span class="icon">🕳️</span><span>"There's no record of decisions made in office hours"</span></div>
+    <div class="why-table">
+      <div class="why-table-header">
+        <div class="why-header pain-header">😤 Pain Point</div>
+        <div class="why-header solution-header">✅ Our Solution</div>
       </div>
-      <div class="why-col solution">
-        <div class="why-header">✅ Our Solution</div>
-        <div class="why-item"><span class="icon">🤖</span><span>EDG Slackbot provides instant answers + expert routing via Slack workflow</span></div>
-        <div class="why-item"><span class="icon">🔄</span><span>Coverage rotation with expertise tagging ensures the right SME is always available</span></div>
-        <div class="why-item"><span class="icon">📋</span><span>Every session auto-summarized and posted; living Canvas is the SSOT</span></div>
-        <div class="why-item"><span class="icon">🗄️</span><span>Async audit trail + AI-fed knowledge base captures every decision</span></div>
+      <div class="why-row">
+        <div class="why-cell pain-cell"><span class="icon">❓</span><span>"I don't know who to ask for governance help"</span></div>
+        <div class="why-cell solution-cell"><span class="icon">🤖</span><span>EDG Slackbot provides instant answers + expert routing via Slack workflow</span></div>
+      </div>
+      <div class="why-row">
+        <div class="why-cell pain-cell"><span class="icon">👤</span><span>"Office hours never have the right person"</span></div>
+        <div class="why-cell solution-cell"><span class="icon">🔄</span><span>Expertise tagging routes each question to the right EDG member — no guessing</span></div>
+      </div>
+      <div class="why-row">
+        <div class="why-cell pain-cell"><span class="icon">📭</span><span>"I missed the session and can't find the answer"</span></div>
+        <div class="why-cell solution-cell"><span class="icon">📋</span><span>Every resolved question is posted and summarized; living Canvas is the SSOT</span></div>
+      </div>
+      <div class="why-row">
+        <div class="why-cell pain-cell"><span class="icon">🕳️</span><span>"There's no record of decisions made in office hours"</span></div>
+        <div class="why-cell solution-cell"><span class="icon">🗄️</span><span>Async audit trail + AI-fed knowledge base captures every decision</span></div>
       </div>
     </div>
     <div class="callout-box">
