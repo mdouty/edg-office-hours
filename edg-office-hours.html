@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EDG Office Hours — Design Brief</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sf-blue: #0070d2;
+    --sf-blue-dark: #005fb2;
+    --sf-blue-light: #e8f4fd;
+    --sf-green: #2e844a;
+    --sf-green-light: #eaf5ea;
+    --sf-yellow: #f4bc25;
+    --sf-yellow-light: #fef7e0;
+    --sf-red: #c23934;
+    --sf-gray-90: #1a1a1a;
+    --sf-gray-70: #444;
+    --sf-gray-50: #706e6b;
+    --sf-gray-30: #adadab;
+    --sf-gray-10: #f4f6f9;
+    --sf-white: #fff;
+    --sf-border: #dddbda;
+    --shadow-sm: 0 1px 4px rgba(0,0,0,0.08);
+    --shadow-md: 0 4px 16px rgba(0,0,0,0.10);
+    --shadow-lg: 0 8px 32px rgba(0,0,0,0.12);
+    --radius: 8px;
+    --radius-lg: 12px;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', system-ui, sans-serif; color: var(--sf-gray-90); background: var(--sf-white); line-height: 1.6; font-size: 15px; }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--sf-white);
+    border-bottom: 2px solid var(--sf-blue);
+    box-shadow: var(--shadow-sm);
+    padding: 0 24px;
+  }
+  .nav-inner {
+    max-width: 1200px; margin: 0 auto;
+    display: flex; align-items: center; gap: 4px;
+    height: 52px; overflow-x: auto;
+  }
+  .nav-brand {
+    font-weight: 700; font-size: 13px; color: var(--sf-blue);
+    white-space: nowrap; margin-right: 16px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .nav-cloud { font-size: 18px; }
+  nav a {
+    text-decoration: none; font-size: 12px; font-weight: 500;
+    color: var(--sf-gray-70); padding: 6px 10px; border-radius: 4px;
+    white-space: nowrap; transition: background .15s, color .15s;
+  }
+  nav a:hover { background: var(--sf-blue-light); color: var(--sf-blue); }
+
+  /* ── SECTIONS ── */
+  section { padding: 72px 24px; }
+  section:nth-child(even) { background: var(--sf-gray-10); }
+  .container { max-width: 1100px; margin: 0 auto; }
+  .section-label {
+    font-size: 11px; font-weight: 700; letter-spacing: .12em;
+    text-transform: uppercase; color: var(--sf-blue); margin-bottom: 8px;
+  }
+  h2 { font-size: 32px; font-weight: 800; line-height: 1.2; margin-bottom: 12px; }
+  h3 { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+  p { color: var(--sf-gray-70); }
+
+  /* ── HERO ── */
+  #hero {
+    background: linear-gradient(135deg, #003e8a 0%, #0070d2 60%, #1b96ff 100%);
+    padding: 96px 24px 80px;
+    text-align: center; color: var(--sf-white);
+  }
+  #hero .eyebrow {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3);
+    padding: 4px 14px; border-radius: 20px;
+    font-size: 12px; font-weight: 600; letter-spacing: .08em;
+    margin-bottom: 24px;
+  }
+  #hero h1 {
+    font-size: clamp(28px, 5vw, 52px); font-weight: 800; line-height: 1.1;
+    margin-bottom: 20px; max-width: 820px; margin-left: auto; margin-right: auto;
+  }
+  #hero .subtitle {
+    font-size: clamp(16px, 2.5vw, 22px); opacity: .88;
+    font-weight: 400; margin-bottom: 20px;
+    max-width: 600px; margin-left: auto; margin-right: auto;
+  }
+  #hero .tagline {
+    font-size: 14px; opacity: .75; font-weight: 500;
+    background: rgba(255,255,255,0.12); display: inline-block;
+    padding: 8px 20px; border-radius: 20px;
+  }
+  .hero-stats {
+    display: flex; justify-content: center; gap: 40px;
+    margin-top: 48px; flex-wrap: wrap;
+  }
+  .hero-stat { text-align: center; }
+  .hero-stat .num { font-size: 36px; font-weight: 800; display: block; }
+  .hero-stat .lbl { font-size: 12px; opacity: .75; font-weight: 500; }
+
+  /* ── CARDS ── */
+  .card-grid { display: grid; gap: 24px; }
+  .card-grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
+  .card-grid.cols-2 { grid-template-columns: repeat(2, 1fr); }
+  .card {
+    background: var(--sf-white); border-radius: var(--radius-lg);
+    padding: 28px; box-shadow: var(--shadow-md);
+    border: 1px solid var(--sf-border);
+    transition: transform .2s, box-shadow .2s;
+  }
+  .card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+  .card-icon {
+    width: 48px; height: 48px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px; margin-bottom: 16px;
+  }
+  .card-icon.blue { background: var(--sf-blue-light); }
+  .card-icon.green { background: var(--sf-green-light); }
+  .card-icon.yellow { background: var(--sf-yellow-light); }
+  .card h3 { margin-bottom: 10px; }
+  .card p { font-size: 14px; line-height: 1.65; }
+  .card .badge {
+    display: inline-block; font-size: 11px; font-weight: 600;
+    padding: 2px 10px; border-radius: 10px; margin-top: 14px;
+    background: var(--sf-blue-light); color: var(--sf-blue);
+  }
+
+  /* ── WHY ── */
+  .why-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-md); border: 1px solid var(--sf-border); }
+  .why-col { padding: 0; }
+  .why-col.pain { background: #fff8f0; }
+  .why-col.solution { background: var(--sf-blue-light); }
+  .why-header { padding: 18px 28px; font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; border-bottom: 1px solid rgba(0,0,0,0.07); }
+  .why-col.pain .why-header { color: var(--sf-red); background: #fff0ec; }
+  .why-col.solution .why-header { color: var(--sf-blue-dark); background: #d0e9fa; }
+  .why-item { padding: 18px 28px; font-size: 14px; border-bottom: 1px solid rgba(0,0,0,0.06); display: flex; align-items: flex-start; gap: 10px; }
+  .why-item:last-child { border-bottom: none; }
+  .why-item .icon { font-size: 16px; margin-top: 1px; flex-shrink: 0; }
+  .callout-box {
+    margin-top: 32px; background: var(--sf-white);
+    border-left: 4px solid var(--sf-blue); border-radius: var(--radius);
+    padding: 20px 24px; box-shadow: var(--shadow-sm);
+  }
+  .callout-box p { font-size: 14px; font-style: italic; color: var(--sf-gray-70); }
+
+  /* ── OPTIONS ── */
+  .option-card { position: relative; }
+  .option-badge {
+    position: absolute; top: 16px; right: 16px;
+    font-size: 11px; font-weight: 700; padding: 3px 10px;
+    border-radius: 10px; background: var(--sf-gray-10); color: var(--sf-gray-50);
+  }
+  .option-badge.selected { background: var(--sf-green-light); color: var(--sf-green); }
+  .option-card.selected { border: 2px solid var(--sf-green); }
+  .option-tag { font-size: 11px; font-weight: 600; color: var(--sf-gray-50); margin-bottom: 6px; display: block; }
+  .best-for { font-size: 12px; margin-top: 12px; color: var(--sf-blue); font-weight: 600; }
+
+  /* ── FLOW ── */
+  .flow-wrapper { overflow-x: auto; padding-bottom: 8px; }
+  .flow-top { display: flex; align-items: stretch; gap: 0; min-width: 860px; }
+  .flow-step {
+    flex: 1; background: var(--sf-white); border: 2px solid var(--sf-border);
+    border-radius: var(--radius); padding: 16px 14px;
+    text-align: center; position: relative; min-width: 120px;
+  }
+  .flow-step .step-num {
+    width: 26px; height: 26px; border-radius: 50%;
+    background: var(--sf-blue); color: white; font-size: 12px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 8px;
+  }
+  .flow-step p { font-size: 12px; color: var(--sf-gray-70); line-height: 1.4; }
+  .flow-arrow {
+    display: flex; align-items: center; padding: 0 2px; color: var(--sf-blue); font-size: 18px; flex-shrink: 0;
+  }
+  .flow-branches { display: flex; gap: 24px; margin-top: 24px; min-width: 860px; }
+  .flow-branch { flex: 1; border-radius: var(--radius-lg); padding: 20px; }
+  .flow-branch.green { background: var(--sf-green-light); border: 2px solid #a3d6b1; }
+  .flow-branch.blue { background: var(--sf-blue-light); border: 2px solid #a0c9ec; }
+  .branch-label {
+    font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .branch-label.green { color: var(--sf-green); }
+  .branch-label.blue { color: var(--sf-blue); }
+  .branch-steps { display: flex; align-items: stretch; gap: 0; }
+  .branch-step {
+    flex: 1; background: var(--sf-white); border-radius: var(--radius);
+    padding: 14px 12px; text-align: center;
+    border: 1.5px solid rgba(0,0,0,0.1);
+  }
+  .branch-step .step-num.green { background: var(--sf-green); }
+  .branch-step .step-num.blue { background: var(--sf-blue); }
+  .branch-step p { font-size: 12px; color: var(--sf-gray-70); line-height: 1.4; }
+  .branch-arrow { display: flex; align-items: center; padding: 0 2px; font-size: 16px; flex-shrink: 0; }
+  .branch-arrow.green { color: var(--sf-green); }
+  .branch-arrow.blue { color: var(--sf-blue); }
+  .fork-label {
+    text-align: center; margin: 16px 0 4px;
+    font-size: 12px; font-weight: 600; color: var(--sf-gray-50);
+    min-width: 860px;
+  }
+  .fork-icon { font-size: 20px; display: block; margin-bottom: 4px; }
+
+  /* ── WIREFRAMES ── */
+  .wireframe-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .wf-shell {
+    background: #f0f0f0; border-radius: var(--radius-lg);
+    border: 2px dashed #ccc; overflow: hidden;
+  }
+  .wf-titlebar {
+    background: #e4e4e4; border-bottom: 1px solid #ccc;
+    padding: 8px 14px; display: flex; align-items: center; gap: 8px;
+    font-size: 11px; font-weight: 700; color: #666;
+  }
+  .wf-dot { width: 8px; height: 8px; border-radius: 50%; }
+  .wf-channel-name { font-size: 12px; font-weight: 700; color: #333; margin-left: 4px; }
+  .wf-body { padding: 14px; display: flex; flex-direction: column; gap: 12px; }
+  .wf-msg { display: flex; gap: 10px; align-items: flex-start; }
+  .wf-avatar {
+    width: 30px; height: 30px; border-radius: 6px; flex-shrink: 0;
+    background: #ccc; display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700; color: #fff;
+  }
+  .wf-avatar.bot { background: var(--sf-blue); }
+  .wf-avatar.user { background: #7b5ea7; }
+  .wf-avatar.workflow { background: #2e844a; }
+  .wf-bubble { flex: 1; }
+  .wf-sender { font-size: 11px; font-weight: 700; color: #333; margin-bottom: 2px; display: flex; align-items: center; gap: 6px; }
+  .wf-bot-badge { background: var(--sf-blue); color: white; font-size: 9px; font-weight: 700; padding: 1px 6px; border-radius: 3px; letter-spacing: .04em; }
+  .wf-text { font-size: 12px; color: #444; line-height: 1.55; font-style: italic; }
+  .wf-link { color: var(--sf-blue); text-decoration: underline; font-style: italic; }
+  .wf-actions { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
+  .wf-btn {
+    font-size: 11px; font-weight: 600; padding: 5px 12px;
+    border-radius: 4px; cursor: default; border: none;
+  }
+  .wf-btn.green { background: var(--sf-green-light); color: var(--sf-green); border: 1px solid #a3d6b1; }
+  .wf-btn.blue { background: var(--sf-blue-light); color: var(--sf-blue); border: 1px solid #a0c9ec; }
+  .wf-divider { border: none; border-top: 1px dashed #ccc; margin: 4px 0; }
+  .wf-form-card { background: white; border-radius: 6px; border: 1px dashed #bbb; padding: 12px; }
+  .wf-form-title { font-size: 12px; font-weight: 700; color: #333; margin-bottom: 10px; }
+  .wf-field { margin-bottom: 8px; }
+  .wf-field-label { font-size: 10px; font-weight: 600; color: #666; margin-bottom: 2px; display: block; }
+  .wf-select, .wf-textarea {
+    width: 100%; background: #f6f6f6; border: 1px solid #ccc;
+    border-radius: 4px; padding: 5px 8px; font-size: 11px;
+    font-style: italic; color: #888; font-family: inherit;
+  }
+  .wf-textarea { height: 44px; resize: none; }
+  .wf-urgency { display: flex; gap: 6px; margin-top: 2px; }
+  .wf-urgency span { font-size: 11px; padding: 2px 8px; border-radius: 10px; background: #f0f0f0; border: 1px solid #ddd; color: #555; }
+  .wf-routing-card { background: white; border-radius: 6px; border: 1px dashed #bbb; padding: 10px 12px; font-size: 12px; font-style: italic; color: #555; line-height: 1.6; }
+  .wf-dm-card { background: #fafafa; border-radius: 6px; border: 1.5px dashed #aaa; padding: 10px 12px; font-size: 12px; font-style: italic; color: #555; line-height: 1.6; }
+  .wf-recap-card { padding: 12px; }
+  .wf-recap-title { font-size: 13px; font-weight: 700; color: #333; margin-bottom: 10px; }
+  .wf-recap-section { font-size: 11px; font-weight: 700; color: #555; margin-bottom: 4px; margin-top: 10px; }
+  .wf-recap-list { font-size: 11px; color: #444; font-style: italic; padding-left: 14px; }
+  .wf-recap-list li { margin-bottom: 2px; line-height: 1.5; }
+  .wf-recap-kb { font-size: 11px; color: var(--sf-green); font-weight: 600; margin-top: 10px; }
+  .wf-recap-footer { font-size: 10px; color: #aaa; margin-top: 8px; font-style: italic; border-top: 1px dashed #ddd; padding-top: 6px; }
+  .wf-timestamp { font-size: 10px; color: #aaa; margin-left: auto; }
+
+  /* ── DATA TABLE ── */
+  .data-table { width: 100%; border-collapse: collapse; background: var(--sf-white); border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-md); }
+  .data-table th { background: var(--sf-blue); color: white; font-size: 12px; font-weight: 600; padding: 12px 16px; text-align: left; }
+  .data-table td { padding: 10px 16px; font-size: 13px; border-bottom: 1px solid var(--sf-border); }
+  .data-table tr:last-child td { border-bottom: none; }
+  .data-table tr:hover td { background: var(--sf-blue-light); }
+  .tag { display: inline-block; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 10px; }
+  .tag.blue { background: var(--sf-blue-light); color: var(--sf-blue); }
+  .tag.green { background: var(--sf-green-light); color: var(--sf-green); }
+  .tag.yellow { background: var(--sf-yellow-light); color: #8a6200; }
+  .tag.gray { background: #f0f0f0; color: #555; }
+
+  /* ── DASHBOARD ── */
+  .dashboard-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .widget {
+    background: var(--sf-white); border-radius: var(--radius-lg);
+    padding: 24px; box-shadow: var(--shadow-md); border: 1px solid var(--sf-border);
+  }
+  .widget-title { font-size: 13px; font-weight: 700; color: var(--sf-gray-90); margin-bottom: 4px; }
+  .widget-subtitle { font-size: 11px; color: var(--sf-gray-50); margin-bottom: 20px; }
+
+  /* Widget 1 – Area chart */
+  .chart-area-wrapper { position: relative; height: 120px; border-left: 2px solid var(--sf-border); border-bottom: 2px solid var(--sf-border); margin-bottom: 8px; }
+  .chart-area {
+    position: absolute; bottom: 0; left: 0; right: 0; height: 100%;
+    display: flex; align-items: flex-end; gap: 0;
+  }
+  .chart-area-svg { width: 100%; height: 100%; }
+  .chart-x-labels { display: flex; justify-content: space-between; padding: 4px 0; }
+  .chart-x-labels span { font-size: 10px; color: var(--sf-gray-50); flex: 1; text-align: center; }
+  .chart-legend { display: flex; gap: 16px; margin-top: 8px; }
+  .chart-legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--sf-gray-70); }
+  .legend-dot { width: 10px; height: 10px; border-radius: 2px; }
+
+  /* Widget 2 – Horizontal bars */
+  .bar-list { display: flex; flex-direction: column; gap: 12px; }
+  .bar-row { display: flex; align-items: center; gap: 10px; }
+  .bar-label { font-size: 12px; color: var(--sf-gray-70); width: 160px; flex-shrink: 0; }
+  .bar-track { flex: 1; background: var(--sf-gray-10); border-radius: 4px; height: 18px; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 4px; display: flex; align-items: center; padding-left: 8px; }
+  .bar-pct { font-size: 11px; font-weight: 700; color: white; }
+
+  /* Widget 3 – Donut */
+  .donut-wrapper { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+  .donut-chart {
+    width: 140px; height: 140px; border-radius: 50%;
+    background: conic-gradient(var(--sf-green) 0% 72%, var(--sf-blue) 72% 100%);
+    position: relative; display: flex; align-items: center; justify-content: center;
+  }
+  .donut-hole {
+    width: 90px; height: 90px; background: white; border-radius: 50%;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+  }
+  .donut-num { font-size: 26px; font-weight: 800; color: var(--sf-green); line-height: 1; }
+  .donut-lbl { font-size: 10px; color: var(--sf-gray-50); font-weight: 500; }
+  .donut-legend { display: flex; gap: 16px; }
+  .donut-goal { font-size: 11px; color: var(--sf-gray-50); margin-top: 4px; }
+
+  /* Widget 4 – KPI tiles */
+  .kpi-tiles { display: flex; gap: 12px; }
+  .kpi-tile {
+    flex: 1; border-radius: var(--radius); padding: 16px 12px;
+    text-align: center; border: 1px solid var(--sf-border);
+  }
+  .kpi-tile.green { background: var(--sf-green-light); border-color: #a3d6b1; }
+  .kpi-tile.yellow { background: var(--sf-yellow-light); border-color: #f4c144; }
+  .kpi-tile.gray { background: #f4f6f9; border-color: #e0e0e0; }
+  .kpi-num { font-size: 24px; font-weight: 800; display: block; margin-bottom: 4px; }
+  .kpi-tile.green .kpi-num { color: var(--sf-green); }
+  .kpi-tile.yellow .kpi-num { color: #8a6200; }
+  .kpi-tile.gray .kpi-num { color: var(--sf-gray-70); }
+  .kpi-tile-label { font-size: 11px; color: var(--sf-gray-70); font-weight: 500; line-height: 1.4; }
+  .kpi-note { font-size: 11px; color: var(--sf-gray-50); margin-top: 14px; font-style: italic; text-align: center; }
+
+  /* ── TIMELINE ── */
+  .timeline-wrapper { position: relative; }
+  .timeline-track { position: absolute; top: 28px; left: 20px; right: 20px; height: 3px; background: var(--sf-blue-light); z-index: 0; }
+  .timeline-track-fill { height: 100%; background: var(--sf-blue); width: 15%; border-radius: 2px; }
+  .timeline-items { display: flex; justify-content: space-between; position: relative; z-index: 1; }
+  .timeline-item { display: flex; flex-direction: column; align-items: center; flex: 1; }
+  .timeline-dot {
+    width: 20px; height: 20px; border-radius: 50%;
+    background: var(--sf-blue); border: 3px solid white;
+    box-shadow: 0 0 0 3px var(--sf-blue); margin-bottom: 14px; flex-shrink: 0;
+  }
+  .timeline-dot.now { background: var(--sf-green); box-shadow: 0 0 0 3px var(--sf-green); }
+  .timeline-dot.future { background: var(--sf-gray-30); box-shadow: 0 0 0 3px var(--sf-gray-30); }
+  .timeline-content { text-align: center; padding: 0 8px; }
+  .timeline-date { font-size: 12px; font-weight: 700; color: var(--sf-blue); margin-bottom: 4px; }
+  .timeline-date.now { color: var(--sf-green); }
+  .timeline-date.future { color: var(--sf-gray-50); }
+  .timeline-desc { font-size: 12px; color: var(--sf-gray-70); line-height: 1.45; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--sf-gray-90); color: white;
+    padding: 40px 24px; text-align: center;
+  }
+  .footer-inner { max-width: 700px; margin: 0 auto; }
+  .footer-channel { font-size: 20px; font-weight: 700; margin-bottom: 12px; }
+  .footer-channel a { color: #1b96ff; text-decoration: none; }
+  .footer-meta { font-size: 13px; color: rgba(255,255,255,0.55); line-height: 1.7; }
+
+  /* ── UTILITY ── */
+  .badge-availability { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 500; padding: 3px 10px; border-radius: 10px; }
+  .avail-green { background: var(--sf-green-light); color: var(--sf-green); }
+  .avail-yellow { background: var(--sf-yellow-light); color: #8a6200; }
+  .avail-red { background: #fce9e8; color: var(--sf-red); }
+
+  .section-head { margin-bottom: 40px; }
+  .divider { width: 48px; height: 4px; background: var(--sf-blue); border-radius: 2px; margin: 12px 0 0; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .card-grid.cols-3 { grid-template-columns: 1fr; }
+    .card-grid.cols-2 { grid-template-columns: 1fr; }
+    .why-grid { grid-template-columns: 1fr; }
+    .wireframe-grid { grid-template-columns: 1fr; }
+    .dashboard-grid { grid-template-columns: 1fr; }
+    .kpi-tiles { flex-direction: column; }
+    h2 { font-size: 26px; }
+    .timeline-items { flex-direction: column; gap: 16px; }
+    .timeline-track { display: none; }
+    .timeline-item { flex-direction: row; align-items: flex-start; gap: 14px; }
+    .timeline-dot { margin-bottom: 0; flex-shrink: 0; }
+    .timeline-content { text-align: left; }
+  }
+
+  /* ── PRINT ── */
+  @media print {
+    nav { position: static; }
+    section { padding: 40px 24px; break-inside: avoid; }
+    .card { break-inside: avoid; }
+    .wf-shell { break-inside: avoid; }
+    .widget { break-inside: avoid; }
+    body { font-size: 13px; }
+  }
+
+  /* Flow step num in branch */
+  .branch-step .step-num {
+    width: 22px; height: 22px; border-radius: 50%;
+    color: white; font-size: 11px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 6px;
+  }
+
+  .option-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr) 1.1fr;
+    gap: 20px;
+  }
+
+  @media (max-width: 900px) {
+    .option-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════ NAV ══════════ -->
+<nav aria-label="Page navigation">
+  <div class="nav-inner">
+    <div class="nav-brand">
+      <span class="nav-cloud">☁</span> EDG Office Hours
+    </div>
+    <a href="#approach">Approach</a>
+    <a href="#why">The Why</a>
+    <a href="#options">Options</a>
+    <a href="#flow">Process Flow</a>
+    <a href="#wireframes">Mockups</a>
+    <a href="#data">Data &amp; Analytics</a>
+    <a href="#timeline">Timeline</a>
+  </div>
+</nav>
+
+<!-- ══════════ HERO ══════════ -->
+<section id="hero">
+  <div class="container">
+    <div class="eyebrow">
+      <span>📋</span> Internal Design Brief · EDG Program Office
+    </div>
+    <h1>EDG Office Hours:<br>A New Way to Get Governance Help</h1>
+    <p class="subtitle">Fast, expert access. Self-serve first. Human when you need it.</p>
+    <p class="tagline">🚀 Launching week of June 15, 2026 — bi-weekly, rotating coverage</p>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <span class="num">24/7</span>
+        <span class="lbl">AI Slackbot Coverage</span>
+      </div>
+      <div class="hero-stat">
+        <span class="num">2×</span>
+        <span class="lbl">Monthly Live Sessions</span>
+      </div>
+      <div class="hero-stat">
+        <span class="num">0</span>
+        <span class="lbl">Single Points of Failure</span>
+      </div>
+      <div class="hero-stat">
+        <span class="num">∞</span>
+        <span class="lbl">Async Question Capacity</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ APPROACH ══════════ -->
+<section id="approach">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-label">Section 1</div>
+      <h2>What We're Building</h2>
+      <div class="divider"></div>
+    </div>
+    <div class="card-grid cols-3">
+      <div class="card">
+        <div class="card-icon blue">🤖</div>
+        <h3>Self-Serve First</h3>
+        <p>AI-powered Slackbot in <strong>#data-management-at-salesforce</strong> answers governance questions 24/7, grounded in Canvas documentation. No waiting, no scheduling — instant answers from your policy source of truth.</p>
+        <span class="badge">Always On</span>
+      </div>
+      <div class="card">
+        <div class="card-icon yellow">📬</div>
+        <h3>Async Office Hours</h3>
+        <p>Slack workflow in <strong>#data-management-at-salesforce</strong> for structured question submission with a full audit trail. Every resolved question feeds the AI knowledge base — making the bot smarter over time.</p>
+        <span class="badge">Structured Intake</span>
+      </div>
+      <div class="card">
+        <div class="card-icon green">👥</div>
+        <h3>Live Expert Sessions</h3>
+        <p>Bi-weekly sessions with EDG team coverage rotation. No single point of failure. Expert availability shown with live status signals:
+        <br><br>
+        <span class="badge-availability avail-green">🟢 Available</span>&nbsp;
+        <span class="badge-availability avail-yellow">🟡 Limited</span>&nbsp;
+        <span class="badge-availability avail-red">🔴 Unavailable</span>
+        </p>
+        <span class="badge">Rotation Model</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ WHY ══════════ -->
+<section id="why">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-label">Section 2</div>
+      <h2>Why We're Doing This</h2>
+      <div class="divider"></div>
+    </div>
+    <div class="why-grid">
+      <div class="why-col pain">
+        <div class="why-header">😤 Pain Point</div>
+        <div class="why-item"><span class="icon">❓</span><span>"I don't know who to ask for governance help"</span></div>
+        <div class="why-item"><span class="icon">👤</span><span>"Office hours never have the right person"</span></div>
+        <div class="why-item"><span class="icon">📭</span><span>"I missed the session and can't find the answer"</span></div>
+        <div class="why-item"><span class="icon">🕳️</span><span>"There's no record of decisions made in office hours"</span></div>
+      </div>
+      <div class="why-col solution">
+        <div class="why-header">✅ Our Solution</div>
+        <div class="why-item"><span class="icon">🤖</span><span>EDG Slackbot provides instant answers + expert routing via Slack workflow</span></div>
+        <div class="why-item"><span class="icon">🔄</span><span>Coverage rotation with expertise tagging ensures the right SME is always available</span></div>
+        <div class="why-item"><span class="icon">📋</span><span>Every session auto-summarized and posted; living Canvas is the SSOT</span></div>
+        <div class="why-item"><span class="icon">🗄️</span><span>Async audit trail + AI-fed knowledge base captures every decision</span></div>
+      </div>
+    </div>
+    <div class="callout-box">
+      <p>💡 <strong>Inspired by:</strong> How teams like Tableau Next, Enterprise Architecture, and Data Domain run their programs — plus a "self-serve before you book" model powered by Slack AI.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ OPTIONS ══════════ -->
+<section id="options">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-label">Section 3</div>
+      <h2>How We Got Here: Options Evaluated</h2>
+      <div class="divider"></div>
+    </div>
+    <div class="option-grid">
+      <div class="card option-card">
+        <span class="option-tag">OPTION A</span>
+        <span class="option-badge">Evaluated</span>
+        <div class="card-icon blue" style="width:40px;height:40px;font-size:18px;">📚</div>
+        <h3>Strategic Learning Sessions</h3>
+        <p style="font-size:13px;">Lunch-and-learn format with curated agendas and presentations. Deep dives into a single governance topic per session.</p>
+        <p class="best-for">✦ Best for: education and awareness</p>
+      </div>
+      <div class="card option-card">
+        <span class="option-tag">OPTION B</span>
+        <span class="option-badge">Evaluated</span>
+        <div class="card-icon yellow" style="width:40px;height:40px;font-size:18px;">🚪</div>
+        <h3>Open Access Drop-In</h3>
+        <p style="font-size:13px;">No agenda, all SMEs from each pillar available in an open session. Flexible but potentially unstructured and unpredictable.</p>
+        <p class="best-for">✦ Best for: ad hoc support</p>
+      </div>
+      <div class="card option-card">
+        <span class="option-tag">OPTION C</span>
+        <span class="option-badge">Evaluated</span>
+        <div class="card-icon green" style="width:40px;height:40px;font-size:18px;">🎯</div>
+        <h3>Expert-Matched Consultations</h3>
+        <p style="font-size:13px;">Slack workflow routes each question to the most qualified EDG member by expertise area. High-quality answers, lower throughput.</p>
+        <p class="best-for">✦ Best for: complex questions</p>
+      </div>
+      <div class="card option-card selected" style="background: linear-gradient(135deg, #eaf5ea 0%, #e8f4fd 100%);">
+        <span class="option-tag">OUR DECISION</span>
+        <span class="option-badge selected">✅ Selected</span>
+        <div class="card-icon green" style="width:40px;height:40px;font-size:18px;">🧩</div>
+        <h3>Hybrid Model</h3>
+        <p style="font-size:13px;"><strong>AI self-serve</strong> as the first layer. <strong>Async workflow</strong> for structured intake. <strong>Live sessions</strong> with expert routing. Best of all three — lowest friction, highest coverage, scalable.</p>
+        <p class="best-for" style="color: var(--sf-green);">✦ Best for: everything</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ PROCESS FLOW ══════════ -->
+<section id="flow">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-label">Section 4</div>
+      <h2>How It Works: The Stakeholder Journey</h2>
+      <div class="divider"></div>
+    </div>
+
+    <div class="flow-wrapper">
+      <!-- Top shared steps -->
+      <div class="flow-top">
+        <div class="flow-step">
+          <div class="step-num">1</div>
+          <p>Stakeholder asks a question in <strong>#data-management-at-salesforce</strong></p>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="step-num">2</div>
+          <p><strong>EDG Slackbot (AI)</strong> responds with a grounded answer from Canvas docs</p>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step" style="border-color:#ccc; background: #fffbe6;">
+          <div class="step-num" style="background:#8a6200;">3</div>
+          <p><strong>Decision point:</strong> Does the answer satisfy the user?</p>
+        </div>
+      </div>
+
+      <p class="fork-label"><span class="fork-icon">⑂</span>Two paths diverge here</p>
+
+      <!-- Branches -->
+      <div class="flow-branches">
+        <!-- GREEN PATH -->
+        <div class="flow-branch green">
+          <div class="branch-label green">🟢 Self-Serve Path (Happy Path)</div>
+          <div class="branch-steps">
+            <div class="branch-step">
+              <div class="step-num green">3a</div>
+              <p>User clicks <strong>"✅ That answered my question"</strong></p>
+            </div>
+            <div class="branch-arrow green">→</div>
+            <div class="branch-step">
+              <div class="step-num green">4</div>
+              <p>Interaction <strong>logged to data store</strong></p>
+            </div>
+            <div class="branch-arrow green">→</div>
+            <div class="branch-step">
+              <div class="step-num green">5</div>
+              <p>Knowledge base <strong>updated</strong> — bot gets smarter ✨</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- BLUE PATH -->
+        <div class="flow-branch blue">
+          <div class="branch-label blue">🔵 Escalation Path</div>
+          <div class="branch-steps">
+            <div class="branch-step">
+              <div class="step-num blue">3b</div>
+              <p>User clicks <strong>"💬 I need to talk to someone"</strong></p>
+            </div>
+            <div class="branch-arrow blue">→</div>
+            <div class="branch-step">
+              <div class="step-num blue">4</div>
+              <p><strong>Async workflow</strong> triggered — structured intake form submitted</p>
+            </div>
+            <div class="branch-arrow blue">→</div>
+            <div class="branch-step">
+              <div class="step-num blue">5</div>
+              <p>Logic <strong>routes to right EDG member</strong> by expertise tag</p>
+            </div>
+            <div class="branch-arrow blue">→</div>
+            <div class="branch-step">
+              <div class="step-num blue">6</div>
+              <p>Resolution posted → <strong>AI summary</strong> → Canvas SSOT updated → feeds Slackbot</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ WIREFRAMES ══════════ -->
+<section id="wireframes">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-label">Section 5</div>
+      <h2>What the Experience Looks Like</h2>
+      <p style="margin-top:8px; font-size:14px; color: var(--sf-gray-50);">Wireframe mockups — representative UI, not final design.</p>
+      <div class="divider"></div>
+    </div>
+
+    <div class="wireframe-grid">
+
+      <!-- MOCKUP 1: Bot Interaction -->
+      <div class="wf-shell">
+        <div class="wf-titlebar">
+          <div class="wf-dot" style="background:#ff5f57"></div>
+          <div class="wf-dot" style="background:#febc2e"></div>
+          <div class="wf-dot" style="background:#28c840"></div>
+          <span class="wf-channel-name"># data-management-at-salesforce</span>
+          <span class="wf-timestamp" style="font-size:10px;color:#aaa;">Slack</span>
+        </div>
+        <div class="wf-body">
+          <!-- User msg -->
+          <div class="wf-msg">
+            <div class="wf-avatar user">MK</div>
+            <div class="wf-bubble">
+              <div class="wf-sender">mkaur <span class="wf-timestamp">10:14 AM</span></div>
+              <div class="wf-text">"What's the process for classifying a new data asset under the EDG framework?"</div>
+            </div>
+          </div>
+          <hr class="wf-divider">
+          <!-- Bot reply -->
+          <div class="wf-msg">
+            <div class="wf-avatar bot">🤖</div>
+            <div class="wf-bubble">
+              <div class="wf-sender">EDG Slackbot <span class="wf-bot-badge">APP</span><span class="wf-timestamp">10:14 AM</span></div>
+              <div class="wf-text">New data assets should be classified using the <span class="wf-link">EDG Data Classification Policy</span>. Start by identifying the data sensitivity level (Public, Internal, Confidential, Restricted), then tag the asset in the data catalog using the appropriate classification label. The owning team must attest to the classification within 30 days of asset creation. <span class="wf-link">→ View Classification Canvas</span></div>
+              <div class="wf-actions">
+                <button class="wf-btn green">✅ That answered my question</button>
+                <button class="wf-btn blue">💬 I need to talk to someone</button>
+              </div>
+            </div>
+          </div>
+          <hr class="wf-divider">
+          <!-- Follow-up after green button -->
+          <div class="wf-msg">
+            <div class="wf-avatar bot">🤖</div>
+            <div class="wf-bubble">
+              <div class="wf-sender">EDG Slackbot <span class="wf-bot-badge">APP</span><span class="wf-timestamp">10:15 AM</span></div>
+              <div class="wf-text">Great! This interaction has been logged and will help improve future answers. See the full policy here → <span class="wf-link">Data Classification Canvas</span> 📚</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MOCKUP 2: Escalation & Routing -->
+      <div class="wf-shell">
+        <div class="wf-titlebar">
+          <div class="wf-dot" style="background:#ff5f57"></div>
+          <div class="wf-dot" style="background:#febc2e"></div>
+          <div class="wf-dot" style="background:#28c840"></div>
+          <span class="wf-channel-name"># data-management-at-salesforce</span>
+          <span class="wf-timestamp" style="font-size:10px;color:#aaa;">Slack</span>
+        </div>
+        <div class="wf-body">
+          <!-- Workflow intake card -->
+          <div class="wf-msg">
+            <div class="wf-avatar workflow">⚡</div>
+            <div class="wf-bubble">
+              <div class="wf-sender">EDG Workflow Bot <span class="wf-bot-badge" style="background:#2e844a;">WORKFLOW</span></div>
+              <div class="wf-form-card">
+                <div class="wf-form-title">📋 Submit a Governance Question</div>
+                <div class="wf-field">
+                  <span class="wf-field-label">QUESTION TYPE</span>
+                  <div class="wf-select">Policy / Classification / RBAC / Lifecycle / Other ▾</div>
+                </div>
+                <div class="wf-field">
+                  <span class="wf-field-label">URGENCY</span>
+                  <div class="wf-urgency">
+                    <span>🟢 Low</span><span>🟡 Medium</span><span>🔴 High</span>
+                  </div>
+                </div>
+                <div class="wf-field">
+                  <span class="wf-field-label">DESCRIPTION</span>
+                  <div class="wf-textarea" style="display:flex;align-items:flex-start;padding-top:6px;">Describe your question in detail...</div>
+                </div>
+                <div class="wf-field">
+                  <span class="wf-field-label">PREFERRED EXPERTISE AREA</span>
+                  <div class="wf-select">Data Domain / RBAC / Lifecycle Mgmt / Policy ▾</div>
+                </div>
+                <button class="wf-btn blue" style="margin-top:4px; width:100%; justify-content:center; display:block;">Submit Question →</button>
+              </div>
+            </div>
+          </div>
+          <hr class="wf-divider">
+          <!-- Routing confirmation -->
+          <div class="wf-msg">
+            <div class="wf-avatar workflow">⚡</div>
+            <div class="wf-bubble">
+              <div class="wf-sender">EDG Workflow Bot <span class="wf-bot-badge" style="background:#2e844a;">WORKFLOW</span></div>
+              <div class="wf-routing-card">Your question has been routed to <strong>[SME Name]</strong> — Data Domain &amp; Classification specialist. Expect a response within 1 business day. 🟡 Medium priority.</div>
+            </div>
+          </div>
+          <hr class="wf-divider">
+          <!-- SME DM -->
+          <div class="wf-msg">
+            <div class="wf-avatar" style="background:#5867e8;">DM</div>
+            <div class="wf-bubble">
+              <div class="wf-sender" style="color:#5867e8;">Direct Message · EDG Workflow Bot</div>
+              <div class="wf-dm-card">
+                <div style="font-weight:700;font-style:normal;font-size:12px;color:#333;margin-bottom:6px;">📬 New Office Hours Question Assigned to You</div>
+                <div><strong>Topic:</strong> Data Classification &nbsp;|&nbsp; <strong>Priority:</strong> 🟡 Medium</div>
+                <div style="margin-top:4px;"><strong>Question:</strong> "What's the process for classifying a new data asset under the EDG fr..."</div>
+                <div class="wf-actions" style="margin-top:8px;">
+                  <button class="wf-btn blue">View Full Question</button>
+                  <button class="wf-btn green">Respond in Thread</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MOCKUP 3: Session Recap -->
+      <div class="wf-shell">
+        <div class="wf-titlebar">
+          <div class="wf-dot" style="background:#ff5f57"></div>
+          <div class="wf-dot" style="background:#febc2e"></div>
+          <div class="wf-dot" style="background:#28c840"></div>
+          <span class="wf-channel-name"># data-management-at-salesforce</span>
+          <span class="wf-timestamp" style="font-size:10px;color:#aaa;">Slack</span>
+        </div>
+        <div class="wf-body">
+          <div class="wf-msg">
+            <div class="wf-avatar bot">🤖</div>
+            <div class="wf-bubble">
+              <div class="wf-sender">EDG Office Hours Bot <span class="wf-bot-badge">APP</span><span class="wf-timestamp">Jun 19</span></div>
+              <div class="wf-form-card">
+                <div class="wf-recap-title">📋 EDG Office Hours Recap — June 19, 2026</div>
+                <div class="wf-recap-section">TOPICS COVERED</div>
+                <ul class="wf-recap-list">
+                  <li>Data asset classification for newly onboarded platform datasets</li>
+                  <li>RBAC permission inheritance across nested data domains</li>
+                  <li>Lifecycle management policy for deprecated API data products</li>
+                </ul>
+                <div class="wf-recap-section">KEY DECISIONS</div>
+                <ul class="wf-recap-list">
+                  <li>All platform-originated assets default to Internal classification pending review</li>
+                  <li>Deprecation window extended to 90 days for certified data products</li>
+                </ul>
+                <div class="wf-recap-section">RESOURCES SHARED</div>
+                <ul class="wf-recap-list">
+                  <li><span class="wf-link">Data Classification Policy (Canvas)</span></li>
+                  <li><span class="wf-link">Lifecycle Management Runbook v2.3</span></li>
+                </ul>
+                <div class="wf-recap-kb">✅ These answers have been added to the EDG Slackbot knowledge base.</div>
+                <div class="wf-recap-footer">Auto-generated by EDG Office Hours Bot · June 19, 2026</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ DATA & ANALYTICS ══════════ -->
+<section id="data">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-label">Section 6</div>
+      <h2>What We're Measuring</h2>
+      <div class="divider"></div>
+    </div>
+
+    <!-- Data Table -->
+    <h3 style="margin-bottom:16px; font-size:16px;">Data Captured per Interaction</h3>
+    <div style="overflow-x:auto; margin-bottom:48px;">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Field</th>
+            <th>Type</th>
+            <th>Values / Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Timestamp</td><td><span class="tag blue">Datetime</span></td><td>Auto-captured on submission</td></tr>
+          <tr><td>Question Type</td><td><span class="tag gray">Enum</span></td><td>Policy / Classification / RBAC / Lifecycle / Other</td></tr>
+          <tr><td>Urgency Level</td><td><span class="tag yellow">Enum</span></td><td>🟢 Low / 🟡 Medium / 🔴 High</td></tr>
+          <tr><td>Submitter</td><td><span class="tag gray">String</span></td><td>Anonymized or named, per preference</td></tr>
+          <tr><td>Expertise Area Requested</td><td><span class="tag gray">Enum</span></td><td>Data Domain / RBAC / Lifecycle / Policy</td></tr>
+          <tr><td>Bot Resolution</td><td><span class="tag green">Boolean</span></td><td>Yes (user accepted bot answer) / No</td></tr>
+          <tr><td>Escalated to SME</td><td><span class="tag green">Boolean</span></td><td>Yes / No</td></tr>
+          <tr><td>SME Assigned</td><td><span class="tag gray">String</span></td><td>Name of assigned EDG member</td></tr>
+          <tr><td>Time to Resolution</td><td><span class="tag blue">Duration</span></td><td>From submission to accepted resolution</td></tr>
+          <tr><td>User Satisfaction</td><td><span class="tag yellow">Enum</span></td><td>Accepted bot / Escalated / No response</td></tr>
+          <tr><td>Session Type</td><td><span class="tag gray">Enum</span></td><td>Async / Live</td></tr>
+          <tr><td>Outcome Tags</td><td><span class="tag blue">Enum</span></td><td>Resolved / Pending / Escalated / Knowledge Gap Identified</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Dashboard -->
+    <h3 style="margin-bottom:20px; font-size:16px;">Analytics Dashboard</h3>
+    <div class="dashboard-grid">
+
+      <!-- Widget 1: Area Chart -->
+      <div class="widget">
+        <div class="widget-title">Support Requests Over Time</div>
+        <div class="widget-subtitle">Last 6 months · Volume by resolution type</div>
+        <div class="chart-area-wrapper">
+          <svg class="chart-area-svg" viewBox="0 0 400 100" preserveAspectRatio="none">
+            <!-- Green area (Bot Resolved) -->
+            <polygon points="0,50 66,40 133,30 200,35 266,20 333,15 400,18 400,100 0,100" fill="rgba(46,132,74,0.15)" />
+            <polyline points="0,50 66,40 133,30 200,35 266,20 333,15 400,18" fill="none" stroke="#2e844a" stroke-width="2.5"/>
+            <!-- Blue area (Escalated) -->
+            <polygon points="0,78 66,72 133,68 200,74 266,65 333,60 400,62 400,100 0,100" fill="rgba(0,112,210,0.10)" />
+            <polyline points="0,78 66,72 133,68 200,74 266,65 333,60 400,62" fill="none" stroke="#0070d2" stroke-width="2" stroke-dasharray="5,3"/>
+            <!-- Dots -->
+            <circle cx="0" cy="50" r="3" fill="#2e844a"/>
+            <circle cx="66" cy="40" r="3" fill="#2e844a"/>
+            <circle cx="133" cy="30" r="3" fill="#2e844a"/>
+            <circle cx="200" cy="35" r="3" fill="#2e844a"/>
+            <circle cx="266" cy="20" r="3" fill="#2e844a"/>
+            <circle cx="333" cy="15" r="3" fill="#2e844a"/>
+            <circle cx="400" cy="18" r="3" fill="#2e844a"/>
+          </svg>
+        </div>
+        <div class="chart-x-labels">
+          <span>Jan</span><span>Feb</span><span>Mar</span><span>Apr</span><span>May</span><span>Jun</span>
+        </div>
+        <div class="chart-legend">
+          <div class="chart-legend-item"><div class="legend-dot" style="background:#2e844a;"></div> Bot Resolved</div>
+          <div class="chart-legend-item"><div class="legend-dot" style="background:#0070d2; opacity:.6;"></div> Escalated</div>
+        </div>
+      </div>
+
+      <!-- Widget 2: Horizontal bars -->
+      <div class="widget">
+        <div class="widget-title">Top Support Topics</div>
+        <div class="widget-subtitle">By volume — all time</div>
+        <div class="bar-list">
+          <div class="bar-row">
+            <div class="bar-label">Data Classification</div>
+            <div class="bar-track"><div class="bar-fill" style="width:34%; background:#0070d2;"><span class="bar-pct">34%</span></div></div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">RBAC / Access Control</div>
+            <div class="bar-track"><div class="bar-fill" style="width:27%; background:#1b7dd4;"><span class="bar-pct">27%</span></div></div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">Lifecycle Management</div>
+            <div class="bar-track"><div class="bar-fill" style="width:18%; background:#3a8fd9;"><span class="bar-pct">18%</span></div></div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">Policy Interpretation</div>
+            <div class="bar-track"><div class="bar-fill" style="width:13%; background:#5aaae0;"><span class="bar-pct">13%</span></div></div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">Other</div>
+            <div class="bar-track"><div class="bar-fill" style="width:8%; background:#a0c9ec;"><span class="bar-pct" style="font-size:10px;">8%</span></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Widget 3: Donut -->
+      <div class="widget">
+        <div class="widget-title">Bot Resolution Rate</div>
+        <div class="widget-subtitle">Current quarter</div>
+        <div class="donut-wrapper">
+          <div class="donut-chart">
+            <div class="donut-hole">
+              <span class="donut-num">72%</span>
+              <span class="donut-lbl">Resolved</span>
+            </div>
+          </div>
+          <div class="donut-legend">
+            <div class="chart-legend-item"><div class="legend-dot" style="background:#2e844a;"></div> Bot Resolved (72%)</div>
+            <div class="chart-legend-item"><div class="legend-dot" style="background:#0070d2;"></div> Escalated (28%)</div>
+          </div>
+          <div class="donut-goal">🎯 Goal: 80% by Q4 FY27</div>
+        </div>
+      </div>
+
+      <!-- Widget 4: KPI tiles -->
+      <div class="widget">
+        <div class="widget-title">Avg Time to Resolution</div>
+        <div class="widget-subtitle">By channel type</div>
+        <div class="kpi-tiles">
+          <div class="kpi-tile green">
+            <span class="kpi-num">~2m</span>
+            <div class="kpi-tile-label">Bot Answer</div>
+          </div>
+          <div class="kpi-tile yellow">
+            <span class="kpi-num">~18h</span>
+            <div class="kpi-tile-label">SME Async Response</div>
+          </div>
+          <div class="kpi-tile gray">
+            <span class="kpi-num">~3d</span>
+            <div class="kpi-tile-label">Live Session (to schedule)</div>
+          </div>
+        </div>
+        <p class="kpi-note">* Live session time reflects scheduling latency, not session length.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ TIMELINE ══════════ -->
+<section id="timeline">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-label">Section 7</div>
+      <h2>Launch Timeline</h2>
+      <div class="divider"></div>
+    </div>
+
+    <div class="timeline-wrapper">
+      <div class="timeline-track"><div class="timeline-track-fill"></div></div>
+      <div class="timeline-items">
+        <div class="timeline-item">
+          <div class="timeline-dot now"></div>
+          <div class="timeline-content">
+            <div class="timeline-date now">🚀 Week of Jun 15</div>
+            <div class="timeline-desc">First live sessions + async workflow go live. Slackbot active in #data-management-at-salesforce.</div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <div class="timeline-date">Aug 3</div>
+            <div class="timeline-desc">Lifecycle management + classification review window. Increased demand expected — full coverage rotation active.</div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot future"></div>
+          <div class="timeline-content">
+            <div class="timeline-date future">Sept–Nov</div>
+            <div class="timeline-desc">RBAC enforcement period. Office hours become a critical support channel — high-volume expected.</div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot future"></div>
+          <div class="timeline-content">
+            <div class="timeline-date future">Ongoing</div>
+            <div class="timeline-desc">Quarterly review of format, topic trends, and Slackbot coverage gaps. Continuous improvement loop.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-channel">Questions? Drop them in <a href="#">#data-management-at-salesforce</a></div>
+    <div class="footer-meta">
+      EDG Program Office &nbsp;·&nbsp; Matthew Douty &amp; Raghda Al-Nasser<br>
+      June 2026 &nbsp;·&nbsp; Enterprise Data Governance · Salesforce
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
